@@ -1,0 +1,16 @@
+YOU NEED THE FOLLOWING DLLS:
+
+<From BepInEx Folder>
+0Harmony20
+BepInEx
+
+<From Lethal Company_Data\Managed>
+Assembly-CSharp
+UnityEngine
+Unity.Netcode.Runtime
+UnityEngine.CoreModule
+UnityEngine.ImageConversionModule
+UnityEngine.PhysicsModule
+
+<From Thunderstore>
+NicholaScott.BepInEx.Utils : https://thunderstore.io/c/lethal-company/p/Ozone/BepInUtils/

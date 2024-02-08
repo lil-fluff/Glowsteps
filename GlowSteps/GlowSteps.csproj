@@ -1,36 +1,85 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <LangVersion>7</LangVersion>
-    <MinVerDefaultPreReleaseIdentifiers>dev</MinVerDefaultPreReleaseIdentifiers>
-    <MinVerTagPrefix>v</MinVerTagPrefix>
-    <AssemblyName>NicholaScott.LethalCompany.GlowSteps</AssemblyName>
-    <Product>Glow Steps</Product>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{28D8B619-9E1F-4A82-A75C-1E056C0F59FE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>NicholaScott.LethalCompany.GlowSteps</RootNamespace>
+    <AssemblyName>GlowSteps</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all"/>
-    <PackageReference Include="BepInEx.Core" Version="5.4.21"/>
-    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0"/>
-    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" />
-    <PackageReference Include="UnityEngine.Modules" Version="2022.3.9" />
-    <PackageReference Include="LethalCompany.GameLibs.Steam" Version="45.0.2-alpha.1" />
-    <PackageReference Include="MinVer" Version="4.3.0"/>
-    <None Remove=".gitattributes" />
-    <None Remove=".gitignore" />
+    <AppDesigner Include="Properties\" />
   </ItemGroup>
-
-  <Target Name="PackThunderstore" AfterTargets="Publish">
-    <Message Importance="high" Text="MinVer version is $(MinVerVersion)"/>
-    <PropertyGroup>
-      <PlainVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch)</PlainVersion>
-    </PropertyGroup>
-    <Exec Command="tcli build --config-path $(SolutionDir)assets/thunderstore.toml --package-version $(PlainVersion)"/>
-    <ItemGroup>
-      <FilesToRename Include="$(SolutionDir)bin/Debug/netstandard2.1/*-$(PlainVersion).zip"/>
-    </ItemGroup>
-    <Move SourceFiles="@(FilesToRename)" DestinationFiles="@(FilesToRename -&gt; Replace($(PlainVersion), $(MinVerVersion)))"/>
-  </Target>
+  <ItemGroup>
+    <Compile Include="FootstepManager.cs" />
+    <Compile Include="FootstepPatcher.cs" />
+    <Compile Include="FootstepPool.cs" />
+    <Compile Include="GlowSteps.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnityScripts\GlowingFootstep.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\LHeavy.png" />
+    <EmbeddedResource Include="Images\LLight.png" />
+    <EmbeddedResource Include="Images\LMedium.png" />
+    <EmbeddedResource Include="Images\RHeavy.png" />
+    <EmbeddedResource Include="Images\RLight.png" />
+    <EmbeddedResource Include="Images\RMedium.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony20">
+      <HintPath>..\Lib\0Harmony20.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\Lib\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>..\Lib\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="NicholaScott.BepInEx.Utils">
+      <HintPath>..\Lib\NicholaScott.BepInEx.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Netcode.Runtime">
+      <HintPath>..\Lib\Unity.Netcode.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\Lib\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\Lib\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>..\Lib\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\Lib\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

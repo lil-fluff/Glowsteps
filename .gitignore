@@ -16,3 +16,6 @@
 !GlowSteps/
 GlowSteps/[Bb]in
 GlowSteps/[Oo]bj
+
+!Lib/
+Lib/*.dll
